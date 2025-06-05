@@ -1,0 +1,59 @@
+.box {
+
+    border: 2px solid gray;
+    width: 150px;
+    height: 160px;
+    padding-top: 20px;
+    list-style: none;
+}
+
+.logo {
+    width: 100%;
+}
+
+/* ul{
+    list-style: none;
+    
+} */
+
+.search-city-input {
+    border-radius: 5px;
+    border: none;
+    transition: width;
+    transition-duration: 300ms;
+}
+
+
+.hidden-searchbar {
+    visibility: hidden;
+    width: 0px;
+}
+
+.expanded-searchbar {
+    visibility: visible;
+    width: 250px;
+}
+
+.my-tooltip {
+    right: 15%;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: top 0.3s ease-in-out;
+  }
+  
+  header {
+    transition: margin-top 0.3s ease-in-out;
+  }
+  
+  /* Adjust the margin-top of the header to leave space for the banner */
+  header.fixed-header {
+    margin-top:0px; /* Adjust this based on your banner height */
+  }
+  

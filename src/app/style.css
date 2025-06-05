@@ -1,0 +1,77 @@
+area {
+    cursor: pointer;
+}
+
+.suggestions li {
+    transition: none;
+}
+
+.banner {
+    background-image: url('/assets/images/jp-bg.png');
+    background-size: cover;
+    padding: 10px;
+    color: white;
+    width: 100%;
+    height: 75vh;
+}
+
+.banner :first-child>span {
+    font-size: large;
+}
+
+.transparent {
+    background-color: transparent;
+}
+
+.hover:hover {
+    transform: scale(1.1);
+}
+
+.transparent::placeholder {
+    color: white;
+    font-weight: normal;
+}
+
+.youtube-video {
+    aspect-ratio: 4/5;
+    max-height: 300px;
+    margin: 0px 10px;
+}
+
+@media (max-width: 562px) {
+
+    .youtube-video {
+        aspect-ratio: 4/5;
+        max-height: 200px;
+    }
+}
+
+
+@media (min-width: 768px) {
+
+
+    .banner {
+        height: 50vh;
+    }
+}
+
+
+
+@media (min-width: 1440px) {
+
+    .banner :first-child>span {
+        font-size: larger;
+    }
+
+    .search-bar {
+        padding: 0px 50px;
+    }
+}
+
+
+@media (min-width: 1920px) {
+    .banner>form {
+        width: 1500px;
+        margin: 0 auto;
+    }
+}
