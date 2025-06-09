@@ -3,17 +3,15 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { IoSearch } from "react-icons/io5";
+import { IoSearch } from 'react-icons/io5';
 
-// import http from '../../helpers/http';
-//import Ads from './Ads/Ads';
 import NZMap from '../components/home/NZMap';
 import ComboBox from '../components/home/ComboBox';
 
 function HomeMainContent() {
   const [searchBox, setSearchBox] = useState({
     jobTitle: '',
-    location: ''
+    location: '',
   });
   const [searchButton, setSearchButton] = useState('');
   const [locationSuggestions, setLocationSuggestions] = useState(null);
@@ -25,9 +23,7 @@ function HomeMainContent() {
     setSearchBox({ ...searchBox, [name]: event.target.value });
 
     try {
-      // Uncomment when using API
-      // let { data } = await http.get(`/jobs/suggestions?searchTerm=${name}&searchValue=${event.target.value}`);
-      const data = []; // mocked for demo
+      const data = []; // mock
       if (name === 'location') {
         setLocationSuggestions(data);
       } else if (name === 'jobTitle') {
@@ -115,40 +111,38 @@ function HomeMainContent() {
       </div>
 
       <div className='2xl:container 2xl:mx-auto text-center py-3'>
-        <div className='grid lg:grid-cols-4 mb-3 gap-3'>
-          {/*<div><Ads /></div> */}
+        <div className='flex flex-col- gap-6'>
+          {/* NZ Map */}
+          <div className='w-full flex justify-center'>
+            <NZMap />
+          </div>
 
-          <div className='lg:col-span-2'><NZMap /></div>
-
-           {/*<div><Ads /></div> */}
-            {/*<div><Ads /></div> */}
-
-          <section className='flex flex-col gap-5 lg:col-span-2'>
+          {/* YouTube Videos */}
+          <section className='grid md:grid-cols-2 gap-6'>
             <div className='flex flex-col'>
               <iframe
-                className='rounded youtube-video'
+                className='rounded w-full aspect-video'
                 src='https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k'
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 referrerPolicy='strict-origin-when-cross-origin'
                 allowFullScreen
               ></iframe>
-              <div className='font-bold'>Experience New Zealand with a Working Holiday Visa</div>
+              <div className='font-bold mt-2 text-center'>Experience New Zealand with a Working Holiday Visa</div>
             </div>
+
             <div className='flex flex-col'>
               <iframe
-                className='rounded youtube-video'
+                className='rounded w-full aspect-video'
                 src='https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m'
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 referrerPolicy='strict-origin-when-cross-origin'
                 allowFullScreen
               ></iframe>
-              <div className='font-bold'>Life in New Zealand on a Working Holiday Visa</div>
+              <div className='font-bold mt-2 text-center'>Life in New Zealand on a Working Holiday Visa</div>
             </div>
           </section>
-
-            {/*<div><Ads /></div> */}
         </div>
       </div>
     </main>
