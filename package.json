@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@toast-ui/react-editor": "^3.2.3",
     "bootstrap": "^5.3.6",
     "next": "latest",
     "react": "latest",
