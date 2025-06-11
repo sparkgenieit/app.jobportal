@@ -11,10 +11,13 @@ interface LayoutProps {
 
 const fetchMeta = async (category: string, topic: string) => {
   try {
+  
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/meta/?page=${category}&category=${topic}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/meta/?page=${topic}&category=${category}`,
       { next: { revalidate: 60 } }
     );
+
+    console.log(res.json);
 
     if (!res.ok) throw new Error(`Failed to fetch metadata: ${res.status}`);
     return await res.json();
