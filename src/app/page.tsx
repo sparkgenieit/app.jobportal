@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { IoSearch } from "react-icons/io5";
 
 import NZMap from '../components/home/NZMap';
+import LocationPopup from '../components/home/LocationPopup';
+
 import ComboBox from '../components/home/ComboBox';
 
 function Home() {
@@ -121,6 +123,7 @@ function Home() {
     {/* NZ Map */}
     <div className="w-full flex justify-center">
       <NZMap />
+       <LocationPopup />
     </div>
 
     {/* YouTube Videos (stacked vertically) */}

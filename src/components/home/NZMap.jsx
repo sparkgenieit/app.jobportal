@@ -2,11 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setLocation } from '@/store/generalSlice'; // make sure path is correct
 
 export default function NZMap() {
   const [mapWidth, setMapWidth] = useState(605);
   const mapRef = useRef(null);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const originalWidth = 948;
   const scale = mapWidth / originalWidth;
@@ -26,10 +29,13 @@ export default function NZMap() {
 
     const handleClick = (e) => {
       e.preventDefault();
-      const region = e.target.getAttribute('data-region');
+      const target = e.target;
+      const region = target.getAttribute('data-region');
       if (region) {
-        alert(`${region.trim()} clicked`);
-        // router.push(`/jobs?region=${region.trim()}`);
+        const regionName = region.trim();
+        dispatch(setLocation({ show: true, city: regionName }));
+     //   alert(`${regionName} clicked`);
+        // router.push(`/jobs?region=${regionName}`);
       }
     };
 
@@ -40,7 +46,7 @@ export default function NZMap() {
       window.removeEventListener('resize', handleResize);
       areas.forEach((area) => area.removeEventListener('click', handleClick));
     };
-  }, [mapWidth]);
+  }, [mapWidth, dispatch]);
 
   const regionShapes = [
     { shape: 'rect', id: 'Auckland', coords: [468, 101, 527, 138] },

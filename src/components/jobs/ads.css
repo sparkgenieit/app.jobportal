@@ -1,0 +1,27 @@
+.ad-container {
+  width: fit-content;
+}
+
+.long-ad {
+  height: 600px;
+  width: 300px;
+}
+
+
+.short-ad {
+  width: 600px;
+  height: 314px;
+}
+
+
+@media (max-width:962px) {
+  .short-ad {
+    width: 100%;
+    height: 200px;
+  }
+
+  .long-ad {
+    width: 100%;
+    height: 400px;
+  }
+}

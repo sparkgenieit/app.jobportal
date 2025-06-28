@@ -1,0 +1,53 @@
+.scrollbar {
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.filter {
+    width: 300px;
+}
+
+.jobs-list {
+    padding-left: 15px;
+}
+
+
+
+
+/* Tablet Screens and below  */
+@media (max-width: 992px) {
+    .filter {
+        width: 99vw;
+        margin: auto;
+        margin-bottom: 6px;
+    }
+
+    .filter-hide {
+        display: none;
+    }
+
+    .scrollbar {
+        height: fit-content;
+    }
+
+
+
+    .show-sort-menu {
+        position: fixed;
+        z-index: 200;
+        top: 0;
+        background-color: white;
+        height: 4rem;
+        box-shadow: 1px 1px 5px grey;
+        transition: top 1s;
+    }
+}
+
+
+@media (min-width: 1921px) {
+
+    /* Devices with higher than 1200px width */
+    .filter {
+        width: 400px;
+    }
+}

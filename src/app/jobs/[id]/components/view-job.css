@@ -1,0 +1,41 @@
+.job-details-box {
+    padding-left: 100px !important;
+}
+
+
+.logo-youtube {
+    height: 5rem;
+    width: 8rem;
+}
+
+.youtube-play-button {
+    position: absolute;
+    right: 23%;
+    top: 6px;
+}
+
+
+
+
+@media (max-width: 768px) {
+
+    .logo-youtube {
+        height: 3rem;
+        width: 5rem;
+    }
+
+    #youtube-video {
+        height: 15rem;
+        width: 100%;
+    }
+
+    .logo-youtube-container span {
+        font-size: small !important
+    }
+}
+
+@media (max-width: 500px) {
+    .job-details-box {
+        padding-left: 0px !important;
+    }
+}
