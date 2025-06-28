@@ -1,64 +1,71 @@
-
 'use client';
 
-import { MdOutlineLocationOn, MdOutlinePeopleOutline } from 'react-icons/md';
-import { FaDollarSign, FaRegClock } from 'react-icons/fa6';
-import { BsBriefcase, BsCalendar3 } from 'react-icons/bs';
-import { IoHomeOutline } from 'react-icons/io5';
+import React from 'react';
+import { FaRegBookmark, FaShareAlt } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+
+const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 interface Job {
-  _id: string;
   title: string;
+  company?: string;
+  banner?: string;
+  companyLogo?: string;
+  youtubeUrl?: string;
   category?: string;
-  location: string;
-  postedOn?: string;
+  location?: string;
   salary?: string;
   type?: string;
   duration?: string;
-  hours?: string;
-  vacancies?: number;
+  hoursPerWeek?: string;
   benefits?: string[];
-  company?: string;
+  vacancies?: number;
+  postedDate?: string;
 }
 
-interface Props {
-  job: Job;
-  isJobSaved: boolean;
-  isJobApplied: boolean;
-  setIsJobSaved: (val: boolean) => void;
-  setIsJobApplied: (val: boolean) => void;
-}
+const JobContent = ({ job }: { job: Job }) => {
+  const handleShare = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      Swal.fire('Link copied!', '', 'success');
+    });
+  };
+  const handleApplyClick = () => {
+    Swal.fire({
+      icon: 'info',
+      text: 'Please login as user to apply to job',
+      confirmButtonColor: '#3085d6',
+    });
+  };
+  const handleSave = () => {
+    Swal.fire('Saved!', 'This job was bookmarked (placeholder)', 'info');
+  };
 
-export default function JobContent({
-  job,
-  isJobSaved,
-  isJobApplied,
-  setIsJobSaved,
-  setIsJobApplied
-}: Props) {
   return (
-    <div className="job-box border border-green-400 p-4 rounded mb-4">
-      <h2 className="text-xl font-semibold">{job.title}</h2>
-      <p>{job.category}</p>
-      <div className="text-gray-600 flex items-center gap-2">
-        <MdOutlineLocationOn />
-        {job.location}
+    <div className="job-card">
+      <div className="text-sm space-y-1">
+        <p><strong>Location:</strong> {job.location}</p>
+        <p><strong>Salary:</strong> {job.salary || 'Not Specified'}</p>
+        <p><strong>Job Type:</strong> {job.type || 'N/A'}</p>
+        <p><strong>Duration:</strong> {job.duration || 'N/A'}</p>
+        <p><strong>Hours/Week:</strong> {job.hoursPerWeek || 'N/A'}</p>
+        <p><strong>Vacancies:</strong> {job.vacancies || 'N/A'}</p>
+        <p><strong>Benefits:</strong> {job.benefits?.join(', ') || 'None'}</p>
       </div>
-      <div className="text-sm text-gray-400 mt-1">
-        {job.postedOn && `Posted on: ${job.postedOn}`}
-      </div>
-      <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-        <div><FaDollarSign /> {job.salary || 'Not Specified'}</div>
-        <div><BsBriefcase /> {job.type || 'N/A'}</div>
-        <div><BsCalendar3 /> {job.duration || 'N/A'}</div>
-        <div><FaRegClock /> {job.hours || 'N/A'} hours/week</div>
-        <div><MdOutlinePeopleOutline /> {job.vacancies} Vacancies</div>
-        <div><IoHomeOutline /> {job.benefits?.join(', ')}</div>
-      </div>
-      <div className="mt-4 flex gap-2">
-        <button className="btn btn-primary">Apply</button>
-        <button className="btn btn-outline">Save</button>
+
+      <div className="flex items-center gap-4 mt-4">
+        <button onClick={handleApplyClick} className="apply-button bg-purple-600 text-white px-4 py-2 rounded">
+          Apply
+        </button>
+        <button onClick={handleShare} title="Share" className="text-gray-600 hover:text-black">
+          <FaShareAlt size={20} />
+        </button>
+        <button onClick={handleSave} title="Save" className="text-gray-600 hover:text-black">
+          <FaRegBookmark size={20} />
+        </button>
       </div>
     </div>
   );
-}
+};
+
+export default JobContent;
