@@ -178,7 +178,7 @@ export default function HeaderSidebar({ showSideBar, setShowSideBar, handleNavig
                         </div>
                     </Accordion>
 
-                    {!isSignedIn &&
+                    {/*{!isSignedIn &&
                         <button
                             type='button'
                             onClick={() => {
@@ -191,7 +191,7 @@ export default function HeaderSidebar({ showSideBar, setShowSideBar, handleNavig
                                 Login
                             </span>
                         </button>
-                    }
+                    } */}
 
                 </div>
             </Offcanvas.Body>

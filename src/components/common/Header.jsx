@@ -1,28 +1,12 @@
 "use client";
 import './Header.css';
-import { Modal, Tabs, Tab } from "react-bootstrap";
-import { CgProfile } from "react-icons/cg";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
-
-/*
-// Uncomment these imports as needed
-import UserLogin from '../auth/UserLogin';
-import UserRegistration from '../auth/UserRegistration';
-import CompanyRegistration from '../auth/CompanyRegistration';
-import RecruiterLogin from '../auth/RecruiterLogin';
-
-import handleLogout from '../../helpers/functions/handlelogout';
-import useCurrentUser from '../../helpers/Hooks/useCurrentUser';
-import { Roles } from '../../services/common/Roles.service';
-import { recruiterUrl } from '../../services/common/urls/recruiterUrls.service';
-import HomePageBanner from '../../pages/common/Ads/HomePageBanner';
-import HeaderSidebar from './HeaderSidebar';
-*/
-
+import { RxHamburgerMenu } from "react-icons/rx";
 import NavbarInfo from './navbarItems';
+import TopAdBanner from '@/components/ads/TopAdBanner';
+import LandingPagePopup from '@/components/ads/LandingPagePopup';
 
 // ✅ Safe NavItem with href guard
 export const NavItem = ({ title, path, className = "" }) => {
@@ -37,14 +21,38 @@ export const NavItem = ({ title, path, className = "" }) => {
   );
 };
 
-const NavDropdownItem = ({ title, rightAlign, children }) => (
-  <div className="group lg:block hidden text-black relative">
-    <span className="group-hover:text-blue-700 cursor-pointer">{title}</span>
-    <div className={`scale-0 rounded-md z-50 absolute bg-white group-hover:scale-100 transition-all duration-300 ${rightAlign ? ' -right-1' : ''}`}>
-      {children}
+// ✅ Final dropdown with responsive layout
+const NavDropdownItem = ({ title, rightAlign, children }) => {
+  const count = React.Children.count(children);
+  const isMegaMenu = count > 15;
+
+  return (
+    <div className="group relative lg:block hidden text-black">
+      <span className="group-hover:text-blue-700 cursor-pointer">{title}</span>
+
+      <div
+        className={`absolute top-full z-50 bg-white shadow-xl rounded-lg transform transition-all duration-200 ease-in-out
+          ${rightAlign ? 'right-0' : 'left-0'}
+          scale-0 group-hover:scale-100 origin-top
+        `}
+        style={{
+          minWidth: isMegaMenu ? '900px' : '240px',
+          maxWidth: isMegaMenu ? '1000px' : '300px',
+        }}
+      >
+        <div
+          className={`${
+            isMegaMenu
+              ? 'grid grid-cols-5 gap-x-6 gap-y-3 p-6 text-sm'
+              : 'flex flex-col gap-2 p-4 text-sm'
+          }`}
+        >
+          {children}
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function Header() {
   const router = useRouter();
@@ -68,7 +76,7 @@ export default function Header() {
     { key: "services", label: "Services" },
     { key: "dining", label: "Dining" },
     { key: "info", label: "Info", rightAlign: true },
-    { key: "b2B", label: "B2B", rightAlign: true },
+    { key: "", label: "", rightAlign: true },
   ];
 
   useEffect(() => {
@@ -85,16 +93,10 @@ export default function Header() {
     }
   }, []);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleNavigation = (path) => {
-    setShowSideBar(false);
-    router.push(path);
-  };
-
   return (
     <>
-      {/* {isAboveMenuBanner && isBannerVisible && <HomePageBanner />} */}
+      {isAboveMenuBanner && isBannerVisible && <TopAdBanner />}
+
 
       <header className={`bg-white flex items-center py-4 justify-between px-2 gap-2 ${isFixed ? 'fixed-header' : ''}`}>
         <Link href="/">
@@ -108,68 +110,20 @@ export default function Header() {
 
           return (
             <NavDropdownItem key={key} title={label} rightAlign={rightAlign}>
-              <div className="flex flex-col gap-3 text-sm w-60 p-3">
-                {items.map((item, idx) => (
-                  <NavItem key={idx} title={item.title} path={item.path} />
-                ))}
-              </div>
+              {items.map((item, idx) => (
+                <NavItem key={idx} title={item.title} path={item.path} />
+              ))}
             </NavDropdownItem>
           );
         })}
 
-        <NavItem title="Jobs" path="/jobs" className="lg:block hidden" />
-
-        {!isSignedIn ? (
-          <button onClick={handleShow} className="bg-blue-500 active:bg-blue-600 text-white py-2 px-4 rounded">
-            Login
-          </button>
-        ) : (
-          <NavDropdownItem title={<CgProfile size={40} />} rightAlign>
-            <div className="w-36 flex flex-col p-2 mt-3 gap-2">
-              {/* You can add role-specific links here */}
-              <button onClick={() => {}} className="bg-blue-500 active:bg-blue-600 text-white py-2 px-4 rounded">Logout</button>
-            </div>
-          </NavDropdownItem>
-        )}
-
+        {/* 🔒 Mobile Hamburger */}
         <button onClick={() => setShowSideBar(v => !v)} className="lg:hidden block">
           <RxHamburgerMenu />
         </button>
-
-        {/* <HeaderSidebar ... /> */}
       </header>
+      <LandingPagePopup />
 
-      {/* 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Body className="responsive-font">
-          <div className="flex lg:hidden justify-end mb-2">
-            <RxCross1 onClick={handleClose} />
-          </div>
-          <Tabs justify className="mb-3">
-            <Tab eventKey="login" title="Login">
-              <Tabs justify className="mb-3">
-                <Tab eventKey="loginUser" title="User Login">
-                  <UserLogin />
-                </Tab>
-                <Tab eventKey="loginRecruiter" title="Company Login">
-                  <RecruiterLogin />
-                </Tab>
-              </Tabs>
-            </Tab>
-            <Tab eventKey="register" title="Register">
-              <Tabs justify className="mb-3">
-                <Tab eventKey="user" title="Register as User">
-                  <UserRegistration />
-                </Tab>
-                <Tab eventKey="company" title="Register as Employer">
-                  <CompanyRegistration />
-                </Tab>
-              </Tabs>
-            </Tab>
-          </Tabs>
-        </Modal.Body>
-      </Modal>
-      */}
     </>
   );
 }
