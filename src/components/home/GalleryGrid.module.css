@@ -24,7 +24,7 @@
 /* Image Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr); /* ✅ 8 columns */
+  grid-template-columns: repeat(12, 1fr); /* ✅ 8 columns */
   gap: 12px;
   padding: 20px;
   width: 100%;

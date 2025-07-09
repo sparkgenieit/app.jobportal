@@ -7,9 +7,7 @@ import { IoSearch } from "react-icons/io5";
 
 import NZMap from '../components/home/NZMap';
 import GalleryGrid from '../components/home/GalleryGrid';
-
 import LocationPopup from '../components/home/LocationPopup';
-
 import ComboBox from '../components/home/ComboBox';
 
 function Home() {
@@ -56,61 +54,63 @@ function Home() {
   };
 
   return (
-    <main className='m-0 p-0 text-sm md:text-base mb-4'>
-    
+    <main className="m-0 p-0 text-sm md:text-base mb-4">
 
-     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      {/* ✅ Full-Width GalleryGrid (OUTSIDE grid) */}
+      <section className="w-full">
+        <GalleryGrid />
+      </section>
 
-  {/* Left Empty Column */}
-  <div className="hidden lg:block col-span-3"></div>
+      {/* ✅ Map + YouTube Grid (Centered in 12 columns) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-  {/* Main Content */}
-  <div className="col-span-6 flex flex-col gap-6">
-  <GalleryGrid />  {/* ✅ Add this above */}
-    {/* NZ Map */}
-    <div className="w-full flex justify-center">
-      <NZMap />
-       <LocationPopup />
-    </div>
+        {/* Left Empty Column */}
+        <div className="hidden lg:block col-span-3"></div>
 
-    {/* YouTube Videos (stacked vertically) */}
-    <section className="flex flex-col gap-6">
-      <div className="flex flex-col">
-        <iframe
-          className="rounded w-full aspect-video"
-          src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
-        <div className="font-bold mt-2 text-center">
-          Experience New Zealand with a Working Holiday Visa
+        {/* Main Content */}
+        <div className="col-span-6 flex flex-col gap-6">
+
+          {/* NZ Map */}
+          <div className="w-full flex justify-center overflow-x-auto">
+            <NZMap />
+            <LocationPopup />
+          </div>
+
+          {/* YouTube Videos */}
+          <section className="flex flex-col gap-6">
+            <div className="flex flex-col">
+              <iframe
+                className="rounded w-full aspect-video"
+                src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+              <div className="font-bold mt-2 text-center">
+                Experience New Zealand with a Working Holiday Visa
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <iframe
+                className="rounded w-full aspect-video"
+                src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+              <div className="font-bold mt-2 text-center">
+                Life in New Zealand on a Working Holiday Visa
+              </div>
+            </div>
+          </section>
         </div>
+
+        {/* Right Empty Column */}
+        <div className="hidden lg:block col-span-3"></div>
       </div>
-
-      <div className="flex flex-col">
-        <iframe
-          className="rounded w-full aspect-video"
-          src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
-        <div className="font-bold mt-2 text-center">
-          Life in New Zealand on a Working Holiday Visa
-        </div>
-      </div>
-    </section>
-  </div>
-
-  {/* Right Empty Column */}
-  <div className="hidden lg:block col-span-3"></div>
-</div>
-
-
-
     </main>
   );
 }
