@@ -45,7 +45,7 @@ const GalleryGrid = () => {
   const [visited, setVisited] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    const repeated = Array.from({ length: 24 }, (_, i) => mockData[i % mockData.length]);
+    const repeated = Array.from({ length: 48 }, (_, i) => mockData[i % mockData.length]);
     setImages(repeated);
   }, []);
 
