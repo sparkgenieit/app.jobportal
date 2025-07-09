@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { IoSearch } from "react-icons/io5";
 
 import NZMap from '../components/home/NZMap';
+import GalleryGrid from '../components/home/GalleryGrid';
+
 import LocationPopup from '../components/home/LocationPopup';
 
 import ComboBox from '../components/home/ComboBox';
@@ -55,62 +57,7 @@ function Home() {
 
   return (
     <main className='m-0 p-0 text-sm md:text-base mb-4'>
-      <div className='banner flex justify-center flex-col gap-2'>
-        <div className='flex flex-col items-center justify-center font-bold text-xl'>
-          <span>Kia ora!</span>
-          <span>Welcome to New Zealand</span>
-        </div>
-
-        <form autoComplete='off' className='flex md:flex-row flex-col gap-3 search-bar'>
-          <div className='flex grow gap-2'>
-            <div className='grow'>
-              <ComboBox
-                suggestions={jobSuggestions}
-                setSuggestions={setJobSuggestions}
-                onEnter={(suggestion) => {
-                  setSearchBox({ ...searchBox, jobTitle: suggestion.value });
-                  clearSuggestions();
-                }}
-                label={'value'}
-                suggestionValue={'value'}
-                type='text'
-                className={`bg-transparent border border-white placeholder:text-white w-full p-2 rounded text-white ${searchButton}`}
-                value={searchBox.jobTitle}
-                placeholder='Job Title'
-                name='jobTitle'
-                onChange={(e) => handleInput('jobTitle', e)}
-              />
-            </div>
-
-            <div className='grow'>
-              <ComboBox
-                suggestions={locationSuggestions}
-                setSuggestions={setLocationSuggestions}
-                onEnter={(suggestion) => {
-                  setSearchBox({ ...searchBox, location: suggestion.value });
-                  clearSuggestions();
-                }}
-                label={'value'}
-                suggestionValue={'value'}
-                type='text'
-                className={`bg-transparent w-full border placeholder:text-white border-white p-2 rounded text-white ${searchButton}`}
-                value={searchBox.location}
-                placeholder='Location'
-                name='location'
-                onChange={(e) => handleInput('location', e)}
-              />
-            </div>
-
-            <button type='button' onClick={handleSearch} className='bg-transparent p-2 focus:scale-110 hover:scale-110 text-white'>
-              <IoSearch size='24px' />
-            </button>
-          </div>
-
-          <Link href='/jobs' className='bg-transparent flex items-center justify-center p-2 no-underline rounded border border-white text-white'>
-            View All Jobs
-          </Link>
-        </form>
-      </div>
+    
 
      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
@@ -119,7 +66,7 @@ function Home() {
 
   {/* Main Content */}
   <div className="col-span-6 flex flex-col gap-6">
-
+  <GalleryGrid />  {/* ✅ Add this above */}
     {/* NZ Map */}
     <div className="w-full flex justify-center">
       <NZMap />
