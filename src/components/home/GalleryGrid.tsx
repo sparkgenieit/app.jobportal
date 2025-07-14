@@ -11,30 +11,6 @@ interface ImageData {
   videoId?: string;
 }
 
-const mockData: ImageData[] = [
-  {
-    thumb: 'https://p-airnz.com/cms/assets/Common-Assets/Ancillary/1200x800-nz-scenicavis-budget-rav4-moke-lake__ScaleMaxWidthWzkxNF0_ExtRewriteWyJqcGciLCJhdmlmIl0.avif',
-    full: 'https://p-airnz.com/cms/assets/Common-Assets/Ancillary/1200x800-nz-scenicavis-budget-rav4-moke-lake__ScaleMaxWidthWzkxNF0_ExtRewriteWyJqcGciLCJhdmlmIl0.avif',
-    location: 'Queenstown',
-    category: 'Mountains',
-    videoId: 'bJqS6z7m-ks',
-  },
-  {
-    thumb: 'https://at.govt.nz/media/qptjjmfd/logo-at-operational.svg',
-    full: 'https://at.govt.nz/media/dyhp0ee3/auckland-transport-more-ways-to-pay-promotion.jpg?mode=crop&width=1535&heightratio=0.5625&format=webp',
-    location: 'Auckland',
-    category: 'Transport',
-    videoId: 'c9cz1VBGEEY',
-  },
-  {
-    thumb: 'https://www.helicopterme.co.nz/cdn/shop/files/Home_About_Us_Heli_Me_900x.jpg?v=1663825785',
-    full: 'https://www.helicopterme.co.nz/cdn/shop/files/Home_About_Us_Heli_Me_900x.jpg?v=1663825785',
-    location: 'Auckland',
-    category: 'Cities',
-    videoId: 'M7lc1UVf-VE',
-  },
-];
-
 const GalleryGrid = () => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [search, setSearch] = useState('');
@@ -45,13 +21,23 @@ const GalleryGrid = () => {
   const [visited, setVisited] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    const repeated = Array.from({ length: 48 }, (_, i) => mockData[i % mockData.length]);
-    setImages(repeated);
-  }, []);
+    const fetchGallery = async () => {
+      try {
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/gallery-grid?category=${category}&location=${search}`;
+        const res = await fetch(url, { next: { revalidate: 60 } });
+        const data = await res.json();
+        setImages(data); // assumes backend returns valid array
+      } catch (err) {
+        console.error('Error loading gallery:', err);
+      }
+    };
+
+    fetchGallery();
+  }, [category, search]);
 
   const filtered = images.filter(
     (img) =>
-      (!search || img.location.toLowerCase().includes(search)) &&
+      (!search || img.location.toLowerCase().includes(search.toLowerCase())) &&
       (!category || img.category === category)
   );
 
@@ -66,7 +52,7 @@ const GalleryGrid = () => {
         <input
           type="text"
           placeholder="Search location..."
-          onChange={(e) => setSearch(e.target.value.toLowerCase())}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <select onChange={(e) => setCategory(e.target.value)}>
           <option value="">All Categories</option>
@@ -84,11 +70,7 @@ const GalleryGrid = () => {
             key={index}
             className={`${styles.block} ${visited.has(index) ? styles.visited : ''}`}
             onMouseMove={(e) =>
-              setHover({
-                data: img,
-                x: e.pageX,
-                y: e.pageY,
-              })
+              setHover({ data: img, x: e.pageX, y: e.pageY })
             }
             onMouseLeave={() => setHover(null)}
             onClick={() => {
@@ -97,20 +79,16 @@ const GalleryGrid = () => {
             }}
           >
             <img src={img.thumb} alt={img.location} />
-
-            {/* Play Button */}
             {img.videoId && (
               <div
                 className={styles.youtubePlay}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setYoutubeId(img.videoId || '');
+                  setYoutubeId(img.videoId);
                   markVisited(index);
                 }}
               />
             )}
-
-            {/* Green Dot */}
             {visited.has(index) && <div className={styles.visitedDot} />}
           </div>
         ))}
@@ -120,10 +98,7 @@ const GalleryGrid = () => {
       {hover && (
         <div
           className={styles.hoverPreview}
-          style={{
-            top: hover.y + 10,
-            left: hover.x + 10,
-          }}
+          style={{ top: hover.y + 10, left: hover.x + 10 }}
         >
           <div className={styles.hoverTitle}>
             {hover.data.location} ({hover.data.category})
