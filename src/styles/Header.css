@@ -47,7 +47,9 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: top 0.3s ease-in-out;
   }
-  
+  header.fixed-header + * {
+  margin-top: 80px; /* Equal to banner height */
+}
   header {
     transition: margin-top 0.3s ease-in-out;
   }
@@ -56,4 +58,7 @@
   header.fixed-header {
     margin-top:0px; /* Adjust this based on your banner height */
   }
-  
+  .top-banner-container {
+  position: relative;
+  z-index: 40;
+}

@@ -95,11 +95,13 @@ export default function Header() {
 
   return (
     <>
-      {isAboveMenuBanner && isBannerVisible && <TopAdBanner />}
-
-
-      <header className={`bg-white flex items-center py-4 justify-between px-2 gap-2 ${isFixed ? 'fixed-header' : ''}`}>
-        <Link href="/">
+<div style={{ height: isAboveMenuBanner ? '80px' : '0px', marginBottom: '200px' }}>
+  {isAboveMenuBanner && isBannerVisible && <TopAdBanner />}
+</div>
+      <header
+  className={`z-[1002] bg-white flex items-center py-4 justify-between px-2 gap-2 ${isFixed ? 'fixed-header' : ''}`}
+>
+  <Link href="/">
           <img className="h-14" src="/assets/images/logo-jp.png" alt="logo" />
         </Link>
 
