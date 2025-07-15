@@ -79,16 +79,21 @@ const GalleryGrid = () => {
             }}
           >
             <img src={img.thumb} alt={img.location} />
-            {img.videoId && (
-              <div
-                className={styles.youtubePlay}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setYoutubeId(img.videoId);
-                  markVisited(index);
-                }}
-              />
-            )}
+        {img.videoId && (
+  <div className={styles.playOverlay}>
+    <div
+      className={styles.youtubePlay}
+      onClick={(e) => {
+        e.stopPropagation();
+        setYoutubeId(img.videoId);
+        markVisited(index);
+      }}
+    />
+  </div>
+)}
+
+
+
             {visited.has(index) && <div className={styles.visitedDot} />}
           </div>
         ))}
