@@ -226,6 +226,68 @@
   z-index: 9999;
 }
 
+.adTag {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: #ff0;
+  color: #000;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.adBlock {
+  border: 2px dashed #f90;
+}
+
+.popupContentLarge {
+  max-width: 90%;
+  max-height: 90%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.popupContentLarge img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.block {
+  position: relative;
+  cursor: pointer;
+}
+
+.visitedDotWrapper {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.visitedDot {
+  width: 12px;
+  height: 12px;
+  background-color: green;
+  border-radius: 50%;
+    bottom: 3px;
+  right: 3px;
+}
 
 @media (max-width: 1024px) {
   .grid {

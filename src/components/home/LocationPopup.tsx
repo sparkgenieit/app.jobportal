@@ -59,17 +59,6 @@ const handleClose = () => {
             </a>
           </div>
 
-          <div style={{ overflowX: 'auto' }} className="flex gap-2 justify-between my-3">
-            {[...Array(5)].map((_, i) => (
-              <img
-                key={i}
-                style={{ height: '20vh', width: '100%' }}
-                className="rounded"
-                src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqDexPvTsSD7a1UZ3TxHRw9bE5nD_ZlZZlZAWAQbfGaE-GEszVIkIvsSE-tx6o"
-                alt={`Location ${i + 1}`}
-              />
-            ))}
-          </div>
 
           <div>
             {loading ? (

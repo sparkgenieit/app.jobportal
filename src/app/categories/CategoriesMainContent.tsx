@@ -17,7 +17,8 @@ export default function CategoriesMainContent({ category, topic, content }: Prop
   }, []);
 
   return (
-    <div className="min-h-[70vh] py-6 px-3">
+<div className="flex justify-between max-w-[1440px] mx-auto">
+  <div className="w-full max-w-4xl">
       {/* SSR fallback - Visible to bots but not to users */}
       {!isClient && (
         <div
@@ -29,5 +30,9 @@ export default function CategoriesMainContent({ category, topic, content }: Prop
       {/* Hydrated TUI Viewer */}
       {isClient && <ToastViewer content={content} />}
     </div>
+     <aside className="hidden lg:block w-[300px] pl-4">
+    {/* Future Ad Space */}
+  </aside>
+  </div>
   );
 }

@@ -1,0 +1,13 @@
+.footer-row {
+  padding: 20px 0;
+  border: none; /* Removes any border */
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}

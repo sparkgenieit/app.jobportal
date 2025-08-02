@@ -9,6 +9,7 @@ interface ImageData {
   location: string;
   category: string;
   videoId?: string;
+  isAd?: boolean;
 }
 
 const GalleryGrid = () => {
@@ -28,10 +29,23 @@ const GalleryGrid = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/gallery-grid?category=${category}&location=${search}`;
-        const res = await fetch(url, { next: { revalidate: 60 } });
-        const data = await res.json();
-        setImages(data);
+        const base = process.env.NEXT_PUBLIC_API_URL;
+
+        const [gridRes, adRes] = await Promise.all([
+          fetch(`${base}/gallery-grid?category=${category}&location=${search}`, {
+            next: { revalidate: 60 },
+          }),
+          fetch(`${base}/gallery-ad?category=${category}&location=${search}`, {
+            next: { revalidate: 60 },
+          }),
+        ]);
+
+        const gridImages = await gridRes.json();
+        const ads = await adRes.json();
+const filteredAds = ads.filter((ad) => !category || ad.category === category);
+const interleaved = injectAdsIntoGrid(gridImages, filteredAds);
+     
+        setImages(interleaved);
       } catch (err) {
         console.error("Error loading gallery:", err);
       }
@@ -39,6 +53,30 @@ const GalleryGrid = () => {
 
     fetchGallery();
   }, [category, search]);
+
+  const injectAdsIntoGrid = (images: ImageData[], ads: any[]): ImageData[] => {
+  if (images.length === 0) return [];
+
+  const totalAdsToInsert = Math.min(Math.ceil(images.length / 3), ads.length);
+  const interval = Math.floor(images.length / totalAdsToInsert);
+  const result: ImageData[] = [...images];
+  let adsInserted = 0;
+
+  for (let i = interval; adsInserted < totalAdsToInsert && i <= result.length; i += interval + 1) {
+    const ad = ads[adsInserted++];
+    result.splice(i, 0, {
+      thumb: `${process.env.NEXT_PUBLIC_API_URL}/uploads/gallery-ads/${ad.blockImage}`,
+      full: `${process.env.NEXT_PUBLIC_API_URL}/uploads/gallery-ads/${ad.hoverImage}`,
+      location: ad.location,
+      category: ad.category,
+      videoId: ad.youtubeLink?.split("v=")[1] || undefined,
+      isAd: true,
+    });
+  }
+
+  return result;
+};
+
 
   const filtered = images.filter(
     (img) =>
@@ -95,7 +133,7 @@ const GalleryGrid = () => {
         {filtered.map((img, index) => (
           <div
             key={index}
-            className={`${styles.block} ${
+            className={`${styles.block} ${img.isAd ? styles.adBlock : ""} ${
               visited.has(index) ? styles.visited : ""
             }`}
             onMouseMove={(e) => handleMouseMove(e, img)}
@@ -116,7 +154,12 @@ const GalleryGrid = () => {
                 }}
               />
             )}
-            {visited.has(index) && <div className={styles.visitedDot} />}
+            {img.isAd && <div className={styles.adTag}>Ad</div>}
+            {visited.has(index) && (
+              <div className={styles.visitedDotWrapper}>
+                <div className={styles.visitedDot} />
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -142,7 +185,7 @@ const GalleryGrid = () => {
           onClick={() => setPopupImage(null)}
         >
           <div
-            className={styles.popupContent}
+            className={styles.popupContentLarge}
             onClick={(e) => e.stopPropagation()}
           >
             <span

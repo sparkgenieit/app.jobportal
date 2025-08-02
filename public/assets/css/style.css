@@ -16020,6 +16020,8 @@ fieldset:disabled .btn {
   -webkit-animation-name: fadeInUp;
   animation-name: fadeInUp;
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 
 /*-------------------------------------------------------------------*/
 /* === Core Styles === */
@@ -16028,6 +16030,7 @@ body {
   padding: 0;
   margin: 0;
   overflow-x: hidden;
+  font-family: 'Areal', sans-serif;
 }
 
 .form-control,

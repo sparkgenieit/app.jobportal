@@ -31,7 +31,7 @@ const NavDropdownItem = ({ title, rightAlign, children }) => {
       <span className="group-hover:text-blue-700 cursor-pointer">{title}</span>
 
       <div
-        className={`absolute top-full z-50 bg-white shadow-xl rounded-lg transform transition-all duration-200 ease-in-out
+        className={`absolute top-full z-[1001] bg-white shadow-xl rounded-lg transform transition-all duration-200 ease-in-out
           ${rightAlign ? 'right-0' : 'left-0'}
           scale-0 group-hover:scale-100 origin-top
         `}

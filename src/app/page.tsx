@@ -76,36 +76,7 @@ function Home() {
             <LocationPopup />
           </div>
 
-          {/* YouTube Videos */}
-          <section className="flex flex-col gap-6">
-            <div className="flex flex-col">
-              <iframe
-                className="rounded w-full aspect-video"
-                src="https://www.youtube.com/embed/7r-If5smQ_s?si=zd0NUcT7rsEV7a4k"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
-              <div className="font-bold mt-2 text-center">
-                Experience New Zealand with a Working Holiday Visa
-              </div>
-            </div>
-
-            <div className="flex flex-col">
-              <iframe
-                className="rounded w-full aspect-video"
-                src="https://www.youtube.com/embed/P98SjgerM8g?si=x36wJ4kJRg86288m"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
-              <div className="font-bold mt-2 text-center">
-                Life in New Zealand on a Working Holiday Visa
-              </div>
-            </div>
-          </section>
+       
         </div>
 
         {/* Right Empty Column */}
