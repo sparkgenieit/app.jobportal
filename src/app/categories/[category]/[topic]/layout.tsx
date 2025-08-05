@@ -9,15 +9,13 @@ interface LayoutProps {
   };
 }
 
+// Fetch meta data for the category and topic
 const fetchMeta = async (category: string, topic: string) => {
   try {
-  
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/meta/?page=${topic}&category=${category}`,
       { next: { revalidate: 60 } }
     );
-
-    console.log(res.json);
 
     if (!res.ok) throw new Error(`Failed to fetch metadata: ${res.status}`);
     return await res.json();
@@ -31,15 +29,11 @@ const fetchMeta = async (category: string, topic: string) => {
   }
 };
 
-// ✅ DO NOT destructure params in argument
+// ✅ generateMetadata expects the full context object, not just `params`
 export async function generateMetadata(
-  context: any
+  { params }: { params: { category: string; topic: string } }
 ): Promise<Metadata> {
-  const params = await context.params; // ✅ Await access
-
-  const category = params.category;
-  const topic = params.topic;
-
+  const { category, topic } = params;
   const slug = `${category}/${topic}`;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
   const canonicalUrl = `${baseUrl}/categories/${slug}`;

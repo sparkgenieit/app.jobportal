@@ -7,9 +7,10 @@ interface Props {
   category: string;
   topic: string;
   content: string;
+  ads?: any[];
 }
 
-export default function CategoriesMainContent({ category, topic, content }: Props) {
+export default function CategoriesMainContent({ category, topic, content, ads = [] }: Props) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -17,22 +18,49 @@ export default function CategoriesMainContent({ category, topic, content }: Prop
   }, []);
 
   return (
-<div className="flex justify-between max-w-[1440px] mx-auto">
-  <div className="w-full max-w-4xl">
-      {/* SSR fallback - Visible to bots but not to users */}
-      {!isClient && (
-        <div
-          className="sr-only" // ✅ This class hides visually but keeps content accessible for bots
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      )}
+    <div className="flex flex-col-reverse lg:flex-row justify-between max-w-[1440px] mx-auto">
+      {/* Main Content */}
+      <div className="w-full lg:max-w-4xl">
+        {/* SSR fallback for SEO */}
+        {!isClient && (
+          <div
+            className="sr-only"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        )}
+        {/* Hydrated TUI Viewer */}
+        {isClient && <ToastViewer content={content} />}
+        
+        {/* 📱 Mobile Ads (bottom of content) */}
+        <div className="block lg:hidden mt-8">
+          {ads.length > 0 && ads.map((ad, index) => (
+            <div key={index} className="mb-6">
+              <a href={ad.redirect_url} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={ad.ad_image_url}
+                  alt={ad.title || `Ad ${index + 1}`}
+                  className="w-full rounded shadow"
+                />
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {/* Hydrated TUI Viewer */}
-      {isClient && <ToastViewer content={content} />}
+      {/* 💻 Desktop Sidebar Ads */}
+      <aside className="hidden lg:block w-[400px] pl-4">
+        {ads.length > 0 && ads.map((ad, index) => (
+          <div key={index} className="mb-6">
+            <a href={ad.redirect_url} target="_blank" rel="noopener noreferrer">
+              <img
+                src={ad.ad_image_url}
+                alt={ad.title || `Ad ${index + 1}`}
+                className="w-full rounded shadow"
+              />
+            </a>
+          </div>
+        ))}
+      </aside>
     </div>
-     <aside className="hidden lg:block w-[300px] pl-4">
-    {/* Future Ad Space */}
-  </aside>
-  </div>
   );
 }

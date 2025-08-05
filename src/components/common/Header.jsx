@@ -7,13 +7,15 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import NavbarInfo from './navbarItems';
 import TopAdBanner from '@/components/ads/TopAdBanner';
 import LandingPagePopup from '@/components/ads/LandingPagePopup';
+import HeaderSidebar from './HeaderSidebar';
 
-// ✅ Safe NavItem with href guard
-export const NavItem = ({ title, path, className = "" }) => {
+
+export const NavItem = ({ title, path, className = "", onClick }) => {
   const safeHref = typeof path === 'string' && path.trim() !== '' ? path : "/";
   return (
     <Link
       href={safeHref}
+      onClick={onClick}
       className={`no-underline hover:text-blue-700 hover:underline transition-none text-gray-900 ${className}`}
     >
       {title}
@@ -21,7 +23,6 @@ export const NavItem = ({ title, path, className = "" }) => {
   );
 };
 
-// ✅ Final dropdown with responsive layout
 const NavDropdownItem = ({ title, rightAlign, children }) => {
   const count = React.Children.count(children);
   const isMegaMenu = count > 15;
@@ -29,7 +30,6 @@ const NavDropdownItem = ({ title, rightAlign, children }) => {
   return (
     <div className="group relative lg:block hidden text-black">
       <span className="group-hover:text-blue-700 cursor-pointer">{title}</span>
-
       <div
         className={`absolute top-full z-[1001] bg-white shadow-xl rounded-lg transform transition-all duration-200 ease-in-out
           ${rightAlign ? 'right-0' : 'left-0'}
@@ -95,13 +95,16 @@ export default function Header() {
 
   return (
     <>
-<div style={{ height: isAboveMenuBanner ? '80px' : '0px', marginBottom: '200px' }}>
-  {isAboveMenuBanner && isBannerVisible && <TopAdBanner />}
-</div>
+      {isAboveMenuBanner && isBannerVisible && (
+        <div className="w-full text-center mb-2">
+          <TopAdBanner />
+        </div>
+      )}
+
       <header
-  className={`z-[1002] bg-white flex items-center py-4 justify-between px-2 gap-2 ${isFixed ? 'fixed-header' : ''}`}
->
-  <Link href="/">
+        className={`z-[1002] bg-white flex items-center py-4 justify-between px-2 gap-2 ${isFixed ? 'fixed-header' : ''}`}
+      >
+        <Link href="/">
           <img className="h-14" src="/assets/images/logo-jp.png" alt="logo" />
         </Link>
 
@@ -124,8 +127,14 @@ export default function Header() {
           <RxHamburgerMenu />
         </button>
       </header>
-      <LandingPagePopup />
 
+      <LandingPagePopup />
+      <HeaderSidebar
+  showSideBar={showSideBar}
+  setShowSideBar={setShowSideBar}
+  handleNavigation={() => {}}
+  handleShow={() => {}}
+/>
     </>
   );
 }
