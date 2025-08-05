@@ -8,7 +8,7 @@ import NavbarInfo from './navbarItems';
 import TopAdBanner from '@/components/ads/TopAdBanner';
 import LandingPagePopup from '@/components/ads/LandingPagePopup';
 import HeaderSidebar from './HeaderSidebar';
-
+import { useIsDesktop } from '../../helpers/functions/useIsDesktop'; // ✅ NEW
 
 export const NavItem = ({ title, path, className = "", onClick }) => {
   const safeHref = typeof path === 'string' && path.trim() !== '' ? path : "/";
@@ -56,6 +56,7 @@ const NavDropdownItem = ({ title, rightAlign, children }) => {
 
 export default function Header() {
   const router = useRouter();
+  const isDesktop = useIsDesktop(); // ✅ NEW
 
   const [isSignedIn, setIsSignedIn] = useState('');
   const [showSideBar, setShowSideBar] = useState(false);
@@ -96,7 +97,13 @@ export default function Header() {
   return (
     <>
       {isAboveMenuBanner && isBannerVisible && (
-        <div className="w-full text-center mb-2">
+        <div
+          className="w-full text-center"
+          style={{
+            height: '80px',
+            marginBottom: isDesktop ? '200px' : '0px', // ✅ Conditional margin
+          }}
+        >
           <TopAdBanner />
         </div>
       )}
@@ -130,11 +137,11 @@ export default function Header() {
 
       <LandingPagePopup />
       <HeaderSidebar
-  showSideBar={showSideBar}
-  setShowSideBar={setShowSideBar}
-  handleNavigation={() => {}}
-  handleShow={() => {}}
-/>
+        showSideBar={showSideBar}
+        setShowSideBar={setShowSideBar}
+        handleNavigation={() => {}}
+        handleShow={() => {}}
+      />
     </>
   );
 }
